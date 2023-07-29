@@ -6,39 +6,44 @@ const allClearButton = document.querySelector("[data-all-clear]");
 const previousOperantTextElement = document.querySelector("[data-previous-operand]");
 const currentOperandTextElement = document.querySelector("[data-current-operand]");
 
-class calculator {
+class Calculator {
   constructor(previousOperantTextElement, currentOperandTextElement) {
     this.previousOperantTextElement = previousOperantTextElement;
     this.currentOperandTextElement = currentOperandTextElement;
+    this.currentOperand = "";
+    this.previousOperant = "";
+    this.operation = "";
   }
 
   appendNumber(number) {
-    this.currentOperand = '${this.currentOperand}${number.toString()}'
+    this.currentOperand = `${this.currentOperand ?? ''}${number.toString()}`
   }
 
-clear() {
+  clear() {
     this.currentOperand = "";
     this.previousOperant = "";
-    this.operation = undefined;
+    this.operation = "";
   }
+
   updateDisplay() {
     this.previousOperantTextElement.innerText = this.previousOperant;
     this.currentOperandTextElement.innerText = this.currentOperand;
   }
 }
 
-const calculator = new calculator(
+const calculator = new Calculator(
   previousOperantTextElement,
   currentOperandTextElement
 );
 
 for (const numberButton of numberButtons) {
   numberButton.addEventListener('click', () => {
-      calculator.appendNumber(numberButton.innerText);
-      calculator.updateDisplay();
+    calculator.appendNumber(numberButton.innerText);
+    calculator.updateDisplay();
   })
 }
+
 allClearButton.addEventListener("click", () => {
   calculator.clear();
- calculator.updateDisplay();
+  calculator.updateDisplay();
 });
